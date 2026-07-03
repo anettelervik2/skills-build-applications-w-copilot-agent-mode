@@ -8,8 +8,9 @@ mongoose
   .then(() => {
     console.log('Connected to octofit_db');
   })
-  .catch((error) => {
-    console.error('Error connecting to octofit_db:', error);
+  .catch((error: unknown) => {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error('Error connecting to octofit_db:', message);
     process.exit(1);
   });
 
