@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import { connectDatabase } from './config/database';
 import { Activity, Leaderboard, Team, User, Workout } from './models';
 
@@ -9,7 +10,26 @@ const baseUrl = codespaceName
   ? `https://${codespaceName}-8000.app.github.dev`
   : 'http://localhost:8000';
 
+const allowedFrontendOriginPattern = /^https:\/\/[a-z0-9-]+-5173\.app\.github\.dev$/;
+
+const corsOptions: cors.CorsOptions = {
+  origin(origin, callback) {
+    if (!origin) {
+      callback(null, true);
+      return;
+    }
+
+    if (origin === 'http://localhost:5173' || allowedFrontendOriginPattern.test(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error('Origin not allowed by CORS'));
+  },
+};
+
 app.use(express.json());
+app.use(cors(corsOptions));
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', baseUrl });
