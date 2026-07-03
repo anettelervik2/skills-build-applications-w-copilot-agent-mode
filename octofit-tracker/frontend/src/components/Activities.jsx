@@ -48,7 +48,12 @@ function Activities() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  const endpoint = useMemo(() => `${resolveApiBaseUrl()}/api/activities/`, [])
+  const endpoint = useMemo(() => {
+    const codespaceEndpoint = `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/activities/`
+    return import.meta.env.VITE_CODESPACE_NAME
+      ? codespaceEndpoint
+      : `${resolveApiBaseUrl()}/api/activities/`
+  }, [])
 
   useEffect(() => {
     let isMounted = true

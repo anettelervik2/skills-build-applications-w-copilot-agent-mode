@@ -42,7 +42,12 @@ function Teams() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  const endpoint = useMemo(() => `${resolveApiBaseUrl()}/api/teams/`, [])
+  const endpoint = useMemo(() => {
+    const codespaceEndpoint = `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/teams/`
+    return import.meta.env.VITE_CODESPACE_NAME
+      ? codespaceEndpoint
+      : `${resolveApiBaseUrl()}/api/teams/`
+  }, [])
 
   useEffect(() => {
     let isMounted = true

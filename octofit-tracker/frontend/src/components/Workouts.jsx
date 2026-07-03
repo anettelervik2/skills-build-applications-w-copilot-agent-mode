@@ -42,7 +42,12 @@ function Workouts() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  const endpoint = useMemo(() => `${resolveApiBaseUrl()}/api/workouts/`, [])
+  const endpoint = useMemo(() => {
+    const codespaceEndpoint = `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/workouts/`
+    return import.meta.env.VITE_CODESPACE_NAME
+      ? codespaceEndpoint
+      : `${resolveApiBaseUrl()}/api/workouts/`
+  }, [])
 
   useEffect(() => {
     let isMounted = true
