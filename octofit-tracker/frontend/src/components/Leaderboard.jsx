@@ -4,15 +4,15 @@ function resolveApiBaseUrl() {
   const codespaceName = import.meta.env.VITE_CODESPACE_NAME
 
   if (codespaceName) {
-    return `https://${codespaceName}-8000.app.github.dev/api`
+    return `https://${codespaceName}-8000.app.github.dev`
   }
 
   if (window.location.hostname.includes('github.dev')) {
     const host = window.location.hostname.replace('-5173.app.github.dev', '-8000.app.github.dev')
-    return `https://${host}/api`
+    return `https://${host}`
   }
 
-  return 'http://localhost:8000/api'
+  return 'http://localhost:8000'
 }
 
 function normalizeListPayload(payload) {
@@ -42,7 +42,7 @@ function Leaderboard() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  const endpoint = useMemo(() => `${resolveApiBaseUrl()}/leaderboard/`, [])
+  const endpoint = useMemo(() => `${resolveApiBaseUrl()}/api/leaderboard/`, [])
 
   useEffect(() => {
     let isMounted = true
